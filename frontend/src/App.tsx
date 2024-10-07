@@ -8,8 +8,11 @@ import {
 import { Layout } from "./layouts/Layout";
 import { Register } from "./pages/register";
 import { SignIn } from "./pages/signIn";
+import { AddVenue } from "./pages/addVenue";
+import { useAppContext } from "./contexts/AppContext";
 
 const App: React.FC = () => {
+  const isLoggedIn = useAppContext();
   return (
     <Router>
       <div className="app-container">
@@ -46,6 +49,26 @@ const App: React.FC = () => {
               </Layout>
             }
           />
+          {isLoggedIn && (
+            <>
+              <Route
+                path="/add-venue"
+                element={
+                  <Layout>
+                    <AddVenue />
+                  </Layout>
+                }
+              />
+              <Route
+                path="/my-venues"
+                element={
+                  <Layout>
+                    <p>MY VENUES PAGE</p>
+                  </Layout>
+                }
+              />
+            </>
+          )}
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </div>

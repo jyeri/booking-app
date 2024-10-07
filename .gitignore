@@ -4,3 +4,5 @@ node_modules
 .vscode
 dist
 passcodes.txt
+*/package-lock.json
+package-lock.json

@@ -1,7 +1,7 @@
 import { RegisterFormData } from "./pages/register";
 import { SignInFormData } from "./pages/signIn";
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL as string || '';
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL as string) || "";
 
 export const register = async (formData: RegisterFormData) => {
   const response = await fetch(`${API_BASE_URL}/api/users/register`, {
@@ -56,4 +56,17 @@ export const signOut = async () => {
   if (!response.ok) {
     throw new Error("Sign out failed");
   }
+};
+
+export const addMyVenue = async (venueFormData: FormData) => {
+  const response = await fetch(`${API_BASE_URL}/api/my-venues`, {
+    method: "POST",
+    credentials: "include",
+    body: venueFormData,
+  });
+
+  if (!response.ok) {
+    throw new Error("Venue creation failed");
+  }
+  return response.json();
 };
