@@ -2,7 +2,7 @@ import express, { Request, Response } from 'express';
 import multer from 'multer';
 import cloudinary from 'cloudinary';
 import Venue from '../models/venue';
-import { VenueType } from '../models/venue';
+import { VenueType } from '../shared/types';
 import { verifyToken } from '../middleware/auth';
 import { body } from 'express-validator';
 
@@ -57,6 +57,15 @@ router.post("/",
     catch (error) {
         console.error("Error creating new venue: ", error);
         res.status(500).json({message: "Something went wrong"});
+    }
+})
+
+router.get("/", verifyToken, async (req: Request, res: Response) => {
+    try {
+        const venues = await Venue.find({ userId: req.userId });
+        res.json(venues);
+    } catch (error) {
+        res.status(500).json({message: "Error fetching venues"});
     }
 })
 

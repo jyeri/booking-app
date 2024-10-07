@@ -48,3 +48,18 @@ test('should allow adding venue', async ({ page }) => {
     await page.getByRole('button', { name: 'Save' }).click();
     await expect(page.getByText('Venue added successfully')).toBeVisible();
 });
+
+test('should allow viewing venues', async ({ page }) => {
+    await page.goto(`${UI_URL}my-venues`);
+    await expect(page.getByText('e2eVenue')).toBeVisible();
+    await expect(page.getByText('e2eDescription')).toBeVisible();
+    await expect(page.getByText('e2eCity')).toBeVisible();
+    await expect(page.getByText('e2eCountry')).toBeVisible();
+    await expect(page.getByText('Golf Course')).toBeVisible();
+    await expect(page.getByText('69 €/hour')).toBeVisible();
+    await expect(page.getByText('69 - capacity')).toBeVisible();
+    await expect(page.getByText('3 / 5')).toBeVisible();
+
+    await expect(page.getByRole('link', { name: 'Add Venue' })).toBeVisible();
+
+});

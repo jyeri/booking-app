@@ -22,9 +22,9 @@ export const Header = () => {
               </Link>
               <Link
                 className="flex items-center text-white px-3 font-bold hover:bg-blue-500 hover:text-gray-300"
-                to="/my-hotels"
+                to="/my-venues"
               >
-                My Hotels
+                My Venues
               </Link>
               <SignOutButton />
             </>

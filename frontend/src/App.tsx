@@ -10,6 +10,7 @@ import { Register } from "./pages/register";
 import { SignIn } from "./pages/signIn";
 import { AddVenue } from "./pages/addVenue";
 import { useAppContext } from "./contexts/AppContext";
+import { MyVenues } from "./pages/myVenues";
 
 const App: React.FC = () => {
   const isLoggedIn = useAppContext();
@@ -63,7 +64,7 @@ const App: React.FC = () => {
                 path="/my-venues"
                 element={
                   <Layout>
-                    <p>MY VENUES PAGE</p>
+                    <MyVenues />
                   </Layout>
                 }
               />

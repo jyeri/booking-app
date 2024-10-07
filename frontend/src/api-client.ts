@@ -1,5 +1,6 @@
 import { RegisterFormData } from "./pages/register";
 import { SignInFormData } from "./pages/signIn";
+import { VenueType } from "../../backend/src/shared/types";
 
 const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL as string) || "";
 
@@ -67,6 +68,17 @@ export const addMyVenue = async (venueFormData: FormData) => {
 
   if (!response.ok) {
     throw new Error("Venue creation failed");
+  }
+  return response.json();
+};
+
+export const fetchMyVenues = async (): Promise<VenueType[]> => {
+  const response = await fetch(`${API_BASE_URL}/api/my-venues`, {
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    throw new Error("Error fetching venues");
   }
   return response.json();
 };

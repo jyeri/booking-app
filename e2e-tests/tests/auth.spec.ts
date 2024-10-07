@@ -20,7 +20,7 @@ test('should allow signing in', async ({ page }) => {
   // check if Toast message is displayed. User is redirected to the home page.
   await expect(page.getByText('Sign In Success!')).toBeVisible();
   await expect(page.getByRole('link', {name: "My Bookings" })).toBeVisible();
-  await expect(page.getByRole('link', {name: "My Hotels" })).toBeVisible();
+  await expect(page.getByRole('link', {name: "My Venues" })).toBeVisible();
   await expect(page.getByRole('button', {name: "Sign Out" })).toBeVisible();
 });
 
@@ -49,7 +49,7 @@ test("should allow register", async ({ page }) => {
   // check if Toast message is displayed. User is redirected to the home page.
   await expect(page.getByText('Registeration Success!')).toBeVisible();
   await expect(page.getByRole('link', {name: "My Bookings" })).toBeVisible();
-  await expect(page.getByRole('link', {name: "My Hotels" })).toBeVisible();
+  await expect(page.getByRole('link', {name: "My Venues" })).toBeVisible();
   await expect(page.getByRole('button', {name: "Sign Out" })).toBeVisible();
 
 });
