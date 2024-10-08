@@ -82,3 +82,29 @@ export const fetchMyVenues = async (): Promise<VenueType[]> => {
   }
   return response.json();
 };
+
+export const fetchVenueById = async (venueId: string): Promise<VenueType> => {
+  const response = await fetch(`${API_BASE_URL}/api/my-venues/${venueId}`, {
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    throw new Error("Error fetching venue");
+  }
+  return response.json();
+};
+
+export const updateVenueById = async (venueFormData: FormData) => {
+  const response = await fetch(
+    `${API_BASE_URL}/api/my-venues/${venueFormData.get("venueId")}`,
+    {
+      method: "PUT",
+      body: venueFormData,
+      credentials: "include",
+    },
+  );
+  if (!response.ok) {
+    throw new Error("Venue update failed");
+  }
+  return response.json();
+};

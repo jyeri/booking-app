@@ -4,6 +4,8 @@ import { TypeSection } from "./TypeSection";
 import { FacilitiesSection } from "./FacilitiesSection";
 import { CapacitySection } from "./CapacitySection";
 import { ImagesSection } from "./ImagesSection";
+import { VenueType } from "../../../../backend/src/shared/types";
+import { useEffect } from "react";
 
 export type VenueFormData = {
   name: string;
@@ -17,20 +19,29 @@ export type VenueFormData = {
   pricePerHour: number;
   starRating: number;
   imageFiles: FileList;
+  imageUrls: string[];
 };
 
 type Props = {
+  venue?: VenueType;
   onSave: (VenueFormData: FormData) => void;
   isLoading: boolean;
 };
 
-export const ManageVenueForm = ({ onSave, isLoading }: Props) => {
+export const ManageVenueForm = ({ onSave, isLoading, venue }: Props) => {
   const formMethods = useForm<VenueFormData>();
-  const { handleSubmit } = formMethods;
+  const { handleSubmit, reset } = formMethods;
+
+  useEffect(() => {
+    reset(venue);
+  }, [venue, reset]);
 
   const onSubmit = handleSubmit((formDataJson: VenueFormData) => {
     console.log(formDataJson);
     const formData = new FormData();
+    if (venue) {
+      formData.append("venueId", venue._id);
+    }
     formData.append("name", formDataJson.name);
     formData.append("city", formDataJson.city);
     formData.append("country", formDataJson.country);
@@ -44,6 +55,12 @@ export const ManageVenueForm = ({ onSave, isLoading }: Props) => {
     formDataJson.facilities.forEach((facility, index) => {
       formData.append(`facilities[${index}]`, facility);
     });
+
+    if (formDataJson.imageUrls) {
+      formDataJson.imageUrls.forEach((url, index) => {
+        formData.append(`imageUrls[${index}]`, url);
+      });
+    }
 
     Array.from(formDataJson.imageFiles).forEach((imageFile) => {
       formData.append(`imageFiles`, imageFile);

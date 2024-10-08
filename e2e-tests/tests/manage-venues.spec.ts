@@ -60,6 +60,24 @@ test('should allow viewing venues', async ({ page }) => {
     await expect(page.getByText('69 - capacity')).toBeVisible();
     await expect(page.getByText('3 / 5')).toBeVisible();
 
+    await expect(page.getByRole('link', { name: 'View' }).first()
+        ).toBeVisible();
     await expect(page.getByRole('link', { name: 'Add Venue' })).toBeVisible();
 
+});
+
+test('should allow editing venue', async ({ page }) => {
+    await page.goto(`${UI_URL}my-venues`);
+    await page.getByRole('link', { name: "View" }).first().click();
+
+    await page.waitForSelector('[name="name"]', {state: 'attached'});
+    await expect(page.locator('[name="name"]')).toHaveValue('e2eVenue');
+    await page.locator('[name="name"]').fill('e2eVenue Updated');
+    await page.getByRole('button', { name: 'Save' }).click();
+    await expect(page.getByText('Venue Saved!')).toBeVisible();
+
+    await page.reload();
+    await expect(page.locator('[name="name"]')).toHaveValue('e2eVenue Updated');
+    await page.locator('[name="name"]').fill('e2eVenue');
+    await page.getByRole('button', { name: 'Save' }).click();
 });

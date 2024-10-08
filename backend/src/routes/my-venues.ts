@@ -38,13 +38,7 @@ router.post("/",
         const imageFiles = req.files as Express.Multer.File[];
         const newVenue: VenueType = req.body;
 
-        const uploadPromises = imageFiles.map(async(image) => {
-            const b64 = Buffer.from(image.buffer).toString("base64");
-            let dataURI = "data:" + image.mimetype + ";base64," + b64;
-            const res = await cloudinary.v2.uploader.upload(dataURI);
-            return res.url;
-        });
-        const imageUrls = await Promise.all(uploadPromises);
+        const imageUrls = await uploadImages(imageFiles);
         newVenue.imageUrls = imageUrls;
         newVenue.lastUpdated = new Date();
         newVenue.userId = req.userId;
@@ -68,5 +62,65 @@ router.get("/", verifyToken, async (req: Request, res: Response) => {
         res.status(500).json({message: "Error fetching venues"});
     }
 })
+
+router.get("/:id", verifyToken, async (req: Request, res: Response) => {
+
+    const id = req.params.id.toString();
+    try {
+        const hotel = await Venue.findOne({ 
+            _id: id, 
+            userId: req.userId 
+        });
+        res.json(hotel);
+    } catch (error) {
+        res.status(500).json({message: "Error fetching venue"});
+    }
+})
+
+router.put(
+    "/:venueId",
+    verifyToken,
+    upload.array("imageFiles"),
+    async (req: Request, res: Response) => {
+    try{
+        const updatedVenue: VenueType = req.body;
+        updatedVenue.lastUpdated = new Date();
+
+        const venue = await Venue.findOneAndUpdate(
+            {
+                _id: req.params.venueId,
+                userId: req.userId 
+            },
+            updatedVenue,
+            { new: true }
+        );
+
+        if (!venue) {
+            console.log("Venue was not found");
+            res.status(404).json({message: "Venue not found"});
+        }
+        if (venue){
+        const files = req.files as Express.Multer.File[];
+        const updatedImageUrls = await uploadImages(files);
+        venue.imageUrls = [...updatedImageUrls, ...(updatedVenue.imageUrls || [])];
+        await venue.save();
+        res.status(201).json(venue);
+        }
+    }catch(error){
+        console.error("Error updating venue: ", error);
+        res.status(500).json({message: "Error updating venue"});
+    }
+})
+
+async function uploadImages(imageFiles: Express.Multer.File[]) {
+    const uploadPromises = imageFiles.map(async (image) => {
+        const b64 = Buffer.from(image.buffer).toString("base64");
+        let dataURI = "data:" + image.mimetype + ";base64," + b64;
+        const res = await cloudinary.v2.uploader.upload(dataURI);
+        return res.url;
+    });
+    const imageUrls = await Promise.all(uploadPromises);
+    return imageUrls;
+}
 
 export default router;

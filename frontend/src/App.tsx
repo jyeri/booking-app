@@ -11,6 +11,7 @@ import { SignIn } from "./pages/signIn";
 import { AddVenue } from "./pages/addVenue";
 import { useAppContext } from "./contexts/AppContext";
 import { MyVenues } from "./pages/myVenues";
+import { EditVenue } from "./pages/editVenue";
 
 const App: React.FC = () => {
   const isLoggedIn = useAppContext();
@@ -65,6 +66,14 @@ const App: React.FC = () => {
                 element={
                   <Layout>
                     <MyVenues />
+                  </Layout>
+                }
+              />
+              <Route
+                path="/edit-venue/:venueId"
+                element={
+                  <Layout>
+                    <EditVenue />
                   </Layout>
                 }
               />
