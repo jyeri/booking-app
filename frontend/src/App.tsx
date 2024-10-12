@@ -12,6 +12,7 @@ import { AddVenue } from "./pages/addVenue";
 import { useAppContext } from "./contexts/AppContext";
 import { MyVenues } from "./pages/myVenues";
 import { EditVenue } from "./pages/editVenue";
+import { Search } from "./pages/Search";
 
 const App: React.FC = () => {
   const isLoggedIn = useAppContext();
@@ -31,7 +32,7 @@ const App: React.FC = () => {
             path="/search"
             element={
               <Layout>
-                <p>SEARCH PAGE</p>
+                <Search />
               </Layout>
             }
           />
@@ -51,6 +52,7 @@ const App: React.FC = () => {
               </Layout>
             }
           />
+
           {isLoggedIn && (
             <>
               <Route

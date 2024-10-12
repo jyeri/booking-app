@@ -1,6 +1,6 @@
 import { RegisterFormData } from "./pages/register";
 import { SignInFormData } from "./pages/signIn";
-import { VenueType } from "../../backend/src/shared/types";
+import { VenueSearchResponse, VenueType } from "../../backend/src/shared/types";
 
 const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL as string) || "";
 
@@ -106,5 +106,53 @@ export const updateVenueById = async (venueFormData: FormData) => {
   if (!response.ok) {
     throw new Error("Venue update failed");
   }
+  return response.json();
+};
+
+export type SearchParams = {
+  destination?: string;
+  startDate?: string;
+  endDate?: string;
+  capacity?: string;
+  page?: string;
+  facilities?: string[];
+  types?: string[];
+  stars?: string[];
+  maxPrice?: string;
+  sortOption?: string;
+};
+
+export const searchVenues = async (
+  searchParams: SearchParams,
+): Promise<VenueSearchResponse> => {
+  const queryParams = new URLSearchParams();
+  queryParams.append("destination", searchParams.destination || "");
+  queryParams.append("startDate", searchParams.startDate || "");
+  queryParams.append("endDate", searchParams.endDate || "");
+  queryParams.append("capacity", searchParams.capacity || "");
+  queryParams.append("page", searchParams.page || "");
+
+  queryParams.append("maxPrice", searchParams.maxPrice || "");
+  queryParams.append("sortOption", searchParams.sortOption || "");
+  searchParams.facilities?.forEach((facility) => {
+    queryParams.append("facilities", facility);
+  });
+
+  searchParams.types?.forEach((type) => {
+    queryParams.append("types", type);
+  });
+
+  searchParams.stars?.forEach((star) => {
+    queryParams.append("stars", star);
+  });
+
+  const response = await fetch(
+    `${API_BASE_URL}/api/venues/search?${queryParams}`,
+  );
+
+  if (!response.ok) {
+    throw new Error("Error fetching venues");
+  }
+
   return response.json();
 };

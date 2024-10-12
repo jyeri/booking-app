@@ -14,3 +14,12 @@ export interface VenueType {
     imageUrls: string[];
     lastUpdated: Date;
 }
+
+export type VenueSearchResponse = {
+    data: VenueType[];
+    pagination: {
+        total: number;
+        page: number;
+        pages: number;
+    };
+};
