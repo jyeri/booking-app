@@ -4,7 +4,7 @@ import * as apiClient from "../api-client";
 import { useState } from "react";
 import { SearchResultCard } from "../components/SearchResultCard";
 import { Pagination } from "../components/Pagination";
-import { StarRatingFilter } from "../components/starRatingFilter";
+import { StarRatingFilter } from "../components/StarRatingFilter";
 import { TypesFilter } from "../components/TypesFilter";
 import { FacilitiesFilter } from "../components/FacilitiesFilter";
 import { PriceFilter } from "../components/PriceFilter";

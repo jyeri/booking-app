@@ -15,7 +15,7 @@ export const SearchBar = () => {
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
-    search.saveSearchValues(destination, startDate, endDate, capacity);
+    search.saveSearchValues(destination, startDate, endDate, capacity, search.venueId);
     navigate("/search");
   };
   const minDate = new Date();

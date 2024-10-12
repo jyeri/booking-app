@@ -19,7 +19,7 @@ export const SearchResultCard = ({ venue }: Props) => {
         <div>
           <div className="flex items-center">
             <span className="flex">
-              {Array.from({ length: venue.starRating }).map((star, index) => (
+              {Array.from({ length: venue.starRating }).map((_star, index) => (
                 <div key={index}>
                   <AiFillStar className="fill-yellow-500" />
                 </div>
