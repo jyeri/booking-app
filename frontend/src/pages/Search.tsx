@@ -16,6 +16,7 @@ export const Search = () => {
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
   const [selectedFacilities, setSelectedFacilities] = useState<string[]>([]);
   const [selectedPrice, setSelectedPrice] = useState<number | undefined>();
+  const [sortOption, setSortOption] = useState<string>("");
 
   const searchParams = {
     destination: search.destination,
@@ -27,6 +28,7 @@ export const Search = () => {
     types: selectedTypes,
     facilities: selectedFacilities,
     maxPrice: selectedPrice?.toString(),
+    sortOption,
   };
 
   const { data: venueData } = useQuery({
@@ -97,6 +99,12 @@ export const Search = () => {
             {venueData?.pagination.total} Venues found
             {search.destination ? ` in ${search.destination}` : ""}
           </span>
+          <select className="p-2 border rounded-sm" value={sortOption} onChange={(event) => setSortOption(event.target.value)}>
+            <option value="">Sort by</option>
+            <option value="starRating">Star Rating</option>
+            <option value="pricePerHourAsc">Price (low to high)</option>
+            <option value="pricePerHourDesc">Price (high to low)</option>
+          </select>
         </div>
         {venueData?.data.map((venue, index) => (
           <SearchResultCard key={index} venue={venue} />

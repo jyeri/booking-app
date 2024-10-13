@@ -29,7 +29,7 @@ export const SearchBar = () => {
       <div className="flex flex-row flex-1 items-center bg-white p-2">
         <MdTravelExplore size={25} className="mr-2" />
         <input
-          placeholder="Where are you planning to play?"
+          placeholder="Where to?"
           className="w-full text-md focus:outline-none"
           value={destination}
           onChange={(event) => setDestination(event.target.value)}
